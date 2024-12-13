@@ -18,10 +18,12 @@ return array(
 		'back_to_rss_feeds' => '← RSS akışlarınız için geri gidin',
 		'cancel' => 'İptal',
 		'create' => 'Oluştur',
+		'delete_all_feeds' => 'Delete all feeds',	// TODO
+		'delete_errored_feeds' => 'Delete feeds with errors',	// TODO
 		'delete_muted_feeds' => 'Sessize alınmış akışları sil',
 		'demote' => 'Yöneticilikten al',
 		'disable' => 'Pasif',
-		'download' => 'Download',	// TODO
+		'download' => 'İndir',
 		'empty' => 'Boş',
 		'enable' => 'Aktif',
 		'export' => 'Dışa Aktar',
@@ -31,12 +33,12 @@ return array(
 		'manage' => 'Yönet',
 		'mark_read' => 'Okundu olarak işaretle',
 		'menu' => array(
-			'open' => 'Open menu',	// TODO
+			'open' => 'Menüyü aç',
 		),
 		'nav_buttons' => array(
-			'next' => 'Next article',	// TODO
-			'prev' => 'Previous article',	// TODO
-			'up' => 'Go up',	// TODO
+			'next' => 'Sonraki makale',
+			'prev' => 'Önceki makale',
+			'up' => 'Yukarı çık',
 		),
 		'open_url' => 'URLyi aç',
 		'promote' => 'Yöneticilik ata',
@@ -185,7 +187,7 @@ return array(
 		'display' => 'Görünüm',
 		'extensions' => 'Eklentiler',
 		'logs' => 'Log kayıtları',
-		'privacy' => 'Privacy',	// TODO
+		'privacy' => 'Gizlilik',
 		'queries' => 'Kullanıcı sorguları',
 		'reading' => 'Okuma',
 		'search' => 'Kelime veya #etiket ara',

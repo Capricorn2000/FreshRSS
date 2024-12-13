@@ -225,7 +225,7 @@ class FreshRSS_Feed extends Minz_Model {
 		return $this->nbNotRead;
 	}
 
-	public function faviconPrepare(): void {
+	public function faviconPrepare(bool $force = false): void {
 		require_once(LIB_PATH . '/favicons.php');
 		$url = $this->website;
 		if ($url == '') {
@@ -235,7 +235,7 @@ class FreshRSS_Feed extends Minz_Model {
 		if (@file_get_contents($txt) !== $url) {
 			file_put_contents($txt, $url);
 		}
-		if (FreshRSS_Context::$isCli) {
+		if (FreshRSS_Context::$isCli || $force) {
 			$ico = FAVICONS_DIR . $this->hash() . '.ico';
 			$ico_mtime = @filemtime($ico);
 			$txt_mtime = @filemtime($txt);
@@ -358,7 +358,7 @@ class FreshRSS_Feed extends Minz_Model {
 			} else {
 				$simplePie = customSimplePie($this->attributes(), $this->curlOptions());
 				$url = htmlspecialchars_decode($this->url, ENT_QUOTES);
-				if (substr($url, -11) === '#force_feed') {
+				if (str_ends_with($url, '#force_feed')) {
 					$simplePie->force_feed(true);
 					$url = substr($url, 0, -11);
 				}
@@ -372,6 +372,7 @@ class FreshRSS_Feed extends Minz_Model {
 				}
 				Minz_ExtensionManager::callHook('simplepie_before_init', $simplePie, $this);
 				$simplePieResult = $simplePie->init();
+				Minz_ExtensionManager::callHook('simplepie_after_init', $simplePie, $this, $simplePieResult);
 
 				if ($simplePieResult === false || $simplePie->get_hash() === '' || !empty($simplePie->error())) {
 					$errorMessage = $simplePie->error();
@@ -639,7 +640,7 @@ class FreshRSS_Feed extends Minz_Model {
 				foreach ($authors as $author) {
 					$authorName = $author->name != '' ? $author->name : $author->email;
 					if (is_string($authorName) && $authorName !== '') {
-						$authorNames .= escapeToUnicodeAlternative(strip_tags($authorName), true) . '; ';
+						$authorNames .= html_only_entity_decode(strip_tags($authorName)) . '; ';
 					}
 				}
 			}
@@ -1006,7 +1007,13 @@ class FreshRSS_Feed extends Minz_Model {
 		}
 	}
 
+	private function faviconRebuild(): void {
+		FreshRSS_Feed::faviconDelete($this->hash());
+		$this->faviconPrepare(true);
+	}
+
 	public function clearCache(): bool {
+		$this->faviconRebuild();
 		return @unlink($this->cacheFilename());
 	}
 
@@ -1160,7 +1167,7 @@ class FreshRSS_Feed extends Minz_Model {
 				' via hub ' . $hubJson['hub'] .
 				' with callback ' . $callbackUrl . ': ' . $info['http_code'] . ' ' . $response, PSHB_LOG);
 
-			if (substr('' . $info['http_code'], 0, 1) == '2') {
+			if (str_starts_with('' . $info['http_code'], '2')) {
 				return true;
 			} else {
 				$hubJson['lease_start'] = time();	//Prevent trying again too soon
