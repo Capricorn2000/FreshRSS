@@ -14,9 +14,9 @@ return array(
 	'action' => array(
 		'actualize' => 'Aggiorna feeds',
 		'add' => 'Aggiungi',
-		'back' => '← Torna indietro',
 		'back_to_rss_feeds' => '← Indietro',
 		'cancel' => 'Annulla',
+		'close' => 'Chiudere',
 		'create' => 'Crea',
 		'delete_all_feeds' => 'Cancella tutti i feed',
 		'delete_errored_feeds' => 'Cancella i feed con errori',
@@ -212,6 +212,7 @@ return array(
 		'archiveIS' => 'archive.is',	// IGNORE
 		'archiveORG' => 'archive.org',	// IGNORE
 		'archivePH' => 'archive.ph',	// IGNORE
+		'bluesky' => 'Bluesky',	// IGNORE
 		'buffer' => 'Buffer',	// IGNORE
 		'clipboard' => 'Appunti',
 		'diaspora' => 'Diaspora*',	// IGNORE
